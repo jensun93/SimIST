@@ -26,7 +26,29 @@ public class ElevatorTest {
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
+    @Test
+    public void canMoveUp() {
+        System.out.println("canMoveUp");
+        Building building = new Building();
+        Person passenger = new Person("Joe", building.middle());
+        Elevator instance = new Elevator(building);
+        
+        Boolean result = instance.canMoveUp(); // at bottom floor: should return true
+        assertEquals(result, true);
+    }
+    
+    @Test
+    public void canMoveDown() {
+        System.out.println("canMoveDown");
+        Building building = new Building();
+        Person passenger = new Person("Joe", building.middle());
+        Elevator instance = new Elevator(building);
+        
+        Boolean result = instance.canMoveDown(); // at bottom floor: should return false
+        assertEquals(result, false);
+    }
+    
     /**
      * Test of moveUp method, of class Elevator.
      */
@@ -37,7 +59,7 @@ public class ElevatorTest {
         Elevator instance = null;
         //sinstance.moveUp(passenger);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -50,7 +72,7 @@ public class ElevatorTest {
         Elevator instance = null;
         //instance.moveDown(passenger);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
