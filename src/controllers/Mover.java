@@ -24,8 +24,8 @@ public abstract class Mover {
         return this.building;
     }
 
-    //Needs to be overridden by child classes.
-    public abstract void moveUp(Person passenger);
+    //Needs to be overridden by child classes. Returns true or false.
+    public abstract boolean moveUp(Person passenger);
 
-    public abstract void moveDown(Person passenger);
+    public abstract boolean moveDown(Person passenger);
 }

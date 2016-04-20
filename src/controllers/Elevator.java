@@ -35,23 +35,33 @@ public class Elevator extends Mover {
     }
     */
 
-    // move to the top floor
-    public void moveUp(Person passenger) {
+    // let the passenger press a button to schedule a move 
+    public boolean moveUp(Person passenger) {
+        // take note of the floor the passenger presses the button on and where they want to go
+        Floor passengerFloor = passenger.getCurrentFloor();
+        Floor passengerDest = passenger.getDestFloor();
+        
         // check if the bottom floor actually contains the passenger
         if (bottom.getUnitList().contains(passenger)) {
             // move passenger to another floor
             bottom.removeUnit(passenger);
             top.addUnit(passenger);
+            return true; // completed the action
+        } else {
+            return false; // failed to move
         }
     }
 
-    // move to the bottom floor
-    public void moveDown(Person passenger) {
+    // let the passenger press a button to schedule a move 
+    public boolean moveDown(Person passenger) {
         // check if the top floor actually contains the passenger
         if (top.getUnitList().contains(passenger)) {
             // move passenger to another floor
             top.removeUnit(passenger);
             bottom.addUnit(passenger);
+            return true; // completed the action
+        } else {
+            return false; // failed to move
         }
     }
 

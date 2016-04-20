@@ -9,22 +9,28 @@ public class Stairs extends Mover {
     }
 
     // move to the top floor
-    public void moveUp(Person passenger){
+    public boolean moveUp(Person passenger){
         // check if the bottom floor actually contains the passenger
         if(super.bottom.getUnitList().contains(passenger)) {
             // move passenger to another floor
             super.bottom.removeUnit(passenger);
             super.top.addUnit(passenger);
+            return true; // completed the action
+        } else {
+            return false; // failed to move
         }
     }
 
     // move to the bottom floor
-    public void moveDown(Person passenger){
+    public boolean moveDown(Person passenger){
         // check if the top floor actually contains the passenger
         if(super.top.getUnitList().contains(passenger)) {
             // move passenger to another floor
             super.top.removeUnit(passenger);
             super.bottom.addUnit(passenger);
+            return true; // completed the action
+        } else {
+            return false; // failed to move
         }
     }
 }
