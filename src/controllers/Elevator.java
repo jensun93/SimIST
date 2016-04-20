@@ -9,7 +9,8 @@ public class Elevator extends Mover {
     protected int direction = 0; // -1 for down, 0 for no direction, 1 for up.
     protected Floor currentFloor;
     ArrayList<Person> passengers = new ArrayList<Person>();
-    // which floors have the buttons activated
+    // 2D array of which floors have the buttons activated: [down, up], rows are total floors, cols are 2: up or down
+    boolean [][] buttons = new boolean[building.getFloorList().size()][2];
 
     public Elevator(Building building) {
         super(building);
@@ -23,17 +24,28 @@ public class Elevator extends Mover {
         return this.direction;
     }
 
-    /*
     // pick up all passengers going in the same direction
     public void pickUp() {
-
+        
     }
-
-    // drop off all passengers that want to go to the current floir
+    
+    // drop off all passengers that want to go to the current floor
     public void dropOff() {
-
+        // make an array of indices to drop off
+        ArrayList<Integer> exiting = new ArrayList<Integer>();
+        
+        for (Person passenger : passengers) {
+            if (passenger.getDestFloor() == currentFloor) {
+                // add passenger to dropoff list
+                exiting.add(passengers.indexOf(passenger));
+            }
+        }
+        
+        // drop off the passengers by index
+        for (Integer exiter: exiting) {
+            passengers.remove(exiter);
+        }
     }
-    */
 
     // let the passenger press a button to schedule a move 
     public boolean moveUp(Person passenger) {
@@ -41,11 +53,15 @@ public class Elevator extends Mover {
         Floor passengerFloor = passenger.getCurrentFloor();
         Floor passengerDest = passenger.getDestFloor();
         
-        // check if the bottom floor actually contains the passenger
-        if (bottom.getUnitList().contains(passenger)) {
-            // move passenger to another floor
-            bottom.removeUnit(passenger);
-            top.addUnit(passenger);
+        // if the passenger is on the top floor, or destination is a lower floor, they cannot move up
+        if ((top == passengerFloor) || (passengerDest.getLevel() < passengerFloor.getLevel())) {
+            return false;
+        }
+        
+        // check if the current floor actually contains the passenger
+        if (passengerFloor.getUnitList().contains(passenger)) {
+            // schedule a pickup for the elevator, going up (1)
+            buttons[passengerDest.getLevel() - 1][1] = true;
             return true; // completed the action
         } else {
             return false; // failed to move
@@ -54,11 +70,19 @@ public class Elevator extends Mover {
 
     // let the passenger press a button to schedule a move 
     public boolean moveDown(Person passenger) {
-        // check if the top floor actually contains the passenger
-        if (top.getUnitList().contains(passenger)) {
-            // move passenger to another floor
-            top.removeUnit(passenger);
-            bottom.addUnit(passenger);
+        // take note of the floor the passenger presses the button on and where they want to go
+        Floor passengerFloor = passenger.getCurrentFloor();
+        Floor passengerDest = passenger.getDestFloor();
+        
+        // if the passenger is on the bottom floor, or destination is an upper floor, they cannot move down
+        if ((bottom == passengerFloor) || (passengerDest.getLevel() > passengerFloor.getLevel())) {
+            return false;
+        }
+        
+        // check if the current floor actually contains the passenger
+        if (passengerFloor.getUnitList().contains(passenger)) {
+            // schedule a pickup for the elevator, going down (0)
+            buttons[passengerDest.getLevel() - 1][0] = true;
             return true; // completed the action
         } else {
             return false; // failed to move
