@@ -6,17 +6,22 @@ import java.util.ArrayList;
  * Interim Person class, representing a mobile person, which is also a Unit.
  * @author lvw5264
  */
-public class Person extends Unit {
+public class Person {
+    protected String name;
     protected Floor currentFloor; // floor that they are already on
     protected Floor destFloor;
     protected ArrayList<Unit> baggage; // what is the person carrying? Can carry other Units, or even person.
-
+    
     public Person(String name, Floor floor) {
-        super(name, floor);
+        this.name = name;
         
         this.currentFloor = floor;
         this.setCurrentFloor(floor);
         this.destFloor = this.currentFloor; // the person is already where they want to be
+    }
+    
+    public String getName() {
+        return this.name;
     }
 
     // return an ArrayList of baggage that the Person is carrying.
@@ -37,9 +42,9 @@ public class Person extends Unit {
     // change where the passenger is.
     public void setCurrentFloor(Floor newFloor) {
         // remove the passenger from the current floor, add to new floor
-        this.currentFloor.removeUnit(this);
+        this.currentFloor.removePerson(this);
         
-        newFloor.addUnit(this);
+        newFloor.addPerson(this);
         
         // set currentFloor as new floor
         this.currentFloor = newFloor;

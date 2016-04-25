@@ -6,11 +6,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class Elevator extends Mover {
-    protected int direction = 0; // -1 for down, 0 for no direction, 1 for up.
+    protected int direction = 0; // -1 for down, 1 for up. Elevator simply switches from down to up at bottom floor.
     protected Floor currentFloor;
     ArrayList<Person> passengers = new ArrayList<Person>();
+    
     // 2D array of which floors have the buttons activated: [down, up], rows are total floors, cols are 2: up or down
-    boolean [][] buttons = new boolean[building.getFloorList().size()][2];
+    protected int numOfFloors = this.building.getFloorList().size();
+    boolean [][] buttons = new boolean[this.numOfFloors][2];
 
     public Elevator(Building building) {
         super(building);
@@ -25,12 +27,33 @@ public class Elevator extends Mover {
     }
 
     // pick up all passengers going in the same direction
-    public void pickUp() {
+    public int pickUp() {
+        // check floor for passengers and add them to the list
+        ArrayList<Person> floorPassengers = new ArrayList<Person>();
+        for (Person p : currentFloor.getPersonList()) {
+            // pickup all those going in the same direction
+            if (this.direction == 1) { // going up
+                if (p.getDestFloor().getLevel() > currentFloor.getLevel()) {
+                    floorPassengers.add(p);
+                }
+            } else if (this.direction == -1) { // going down
+                if (p.getDestFloor().getLevel() < currentFloor.getLevel()) {
+                    floorPassengers.add(p);
+                }
+            }
+        }
         
+        // add all floor passengers, if any to the elevator
+        for (Person p : floorPassengers) {
+            this.passengers.add(p);
+        }
+        
+        // return the amount of passengers picked up
+        return floorPassengers.size();
     }
     
     // drop off all passengers that want to go to the current floor
-    public void dropOff() {
+    public int dropOff() {
         // make an array of indices to drop off
         ArrayList<Integer> exiting = new ArrayList<Integer>();
         
@@ -45,6 +68,9 @@ public class Elevator extends Mover {
         for (Integer exiter: exiting) {
             passengers.remove(exiter);
         }
+        
+        // return amount of passengers dropped off
+        return exiting.size();
     }
 
     // let the passenger press a button to schedule a move 
@@ -59,7 +85,7 @@ public class Elevator extends Mover {
         }
         
         // check if the current floor actually contains the passenger
-        if (passengerFloor.getUnitList().contains(passenger)) {
+        if (passengerFloor.getPersonList().contains(passenger)) {
             // schedule a pickup for the elevator, going up (1)
             buttons[passengerDest.getLevel() - 1][1] = true;
             return true; // completed the action
@@ -80,7 +106,7 @@ public class Elevator extends Mover {
         }
         
         // check if the current floor actually contains the passenger
-        if (passengerFloor.getUnitList().contains(passenger)) {
+        if (passengerFloor.getPersonList().contains(passenger)) {
             // schedule a pickup for the elevator, going down (0)
             buttons[passengerDest.getLevel() - 1][0] = true;
             return true; // completed the action
@@ -107,42 +133,48 @@ public class Elevator extends Mover {
 
     // moves the whole elevator: setup only for three floors
     public Boolean up() {
-        if (canMoveUp()) { // on top floor
-            return false; // could not move up since elevator at top floor
+        if (!canMoveUp()) { // on top floor, can only go down
+            this.direction = -1;
+            return false;
         } else if (currentFloor.getLevel() == 2-1) { // on middle floor
             currentFloor = super.building.getFloor(3-1);
         } else if (currentFloor.getLevel() == 1-1) { // on bottom floor
             currentFloor = super.building.getFloor(2-1);
         }
-        return true; // true means movement is successful
+        
+        // movement successful, change direction
+        this.direction = 1;
+        return true;
     }
 
     // moves the whole elevator: setup only for three floors
     public Boolean down() {
-        if (canMoveDown()) { // on bottom floor
-            return false; // could not move down since elevator at bottom floor
+        if (!canMoveDown()) { // on bottom floor, can only move up
+            this.direction = 1;
+            return false;
         } else if (currentFloor.getLevel() == 2-1) { // on middle floor
             currentFloor = super.building.getFloor(1-1);
         } else if (currentFloor.getLevel() == 3-1) { // on bottom floor
             currentFloor = super.building.getFloor(2-1);
         }
+        
+        // movement successful, change direction
+        this.direction = -1;
         return true;
     }
 
     public void move(int floorChoice) {
         if(currentFloor.getLevel() < floorChoice && canMoveUp()) {
             System.out.println("Going up..");
-            currentFloor.setLevel(floorChoice);
-            this.up();
-            // dropOff();
-            // pickUp();
+            this.up(); // move up one floor
+            this.dropOff();
+            this.pickUp();
         }
         else if(currentFloor.getLevel() > floorChoice && canMoveDown()) {
             System.out.println("Going down..");
-            currentFloor.setLevel(floorChoice);
-            this.down();
-            // dropOff();
-            // pickUp();
+            this.down(); // move down one floor
+            this.dropOff();
+            this.pickUp();
         }
     }
 }
