@@ -74,5 +74,116 @@ public class ElevatorTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getDirection method, of class Elevator.
+     */
+    @Test
+    public void testGetDirection() {
+        System.out.println("getDirection");
+        Elevator instance = null;
+        int expResult = 0;
+        int result = instance.getDirection();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of pickUp method, of class Elevator.
+     */
+    @Test
+    public void testPickUp() {
+        System.out.println("pickUp");
+        Elevator instance = null;
+        int expResult = 0;
+        int result = instance.pickUp();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of dropOff method, of class Elevator.
+     */
+    @Test
+    public void testDropOff() {
+        System.out.println("dropOff");
+        Elevator instance = null;
+        int expResult = 0;
+        int result = instance.dropOff();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of canMoveUp method, of class Elevator.
+     */
+    @Test
+    public void testCanMoveUp() {
+        System.out.println("canMoveUp");
+        Elevator instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.canMoveUp();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of canMoveDown method, of class Elevator.
+     */
+    @Test
+    public void testCanMoveDown() {
+        System.out.println("canMoveDown");
+        Elevator instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.canMoveDown();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of up method, of class Elevator.
+     */
+    @Test
+    public void testUp() {
+        System.out.println("up");
+        Elevator instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.up();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of down method, of class Elevator.
+     */
+    @Test
+    public void testDown() {
+        System.out.println("down");
+        Elevator instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.down();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of move method, of class Elevator.
+     */
+    @Test
+    public void testMove() {
+        System.out.println("move");
+        int floorChoice = 0;
+        Elevator instance = null;
+        instance.move(floorChoice);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

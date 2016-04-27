@@ -87,7 +87,7 @@ public class Elevator extends Mover {
         // check if the current floor actually contains the passenger
         if (passengerFloor.getPersonList().contains(passenger)) {
             // schedule a pickup for the elevator, going up (1)
-            buttons[passengerDest.getLevel() - 1][1] = true;
+            buttons[passengerFloor.getLevel() - 1][1] = true;
             return true; // completed the action
         } else {
             return false; // failed to move
@@ -108,7 +108,7 @@ public class Elevator extends Mover {
         // check if the current floor actually contains the passenger
         if (passengerFloor.getPersonList().contains(passenger)) {
             // schedule a pickup for the elevator, going down (0)
-            buttons[passengerDest.getLevel() - 1][0] = true;
+            buttons[passengerFloor.getLevel() - 1][0] = true;
             return true; // completed the action
         } else {
             return false; // failed to move
