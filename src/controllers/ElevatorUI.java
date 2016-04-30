@@ -13,20 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-/**
- *
- * package teamgameproject;
- *
- * import javax.swing.*; import java.awt.*; import java.io.File; import
- * java.io.FileInputStream; import java.io.IOException; import
- * java.io.InputStream; import javax.imageio.ImageIO; import
- * javax.swing.ImageIcon; import javax.swing.JLabel; import
- * sun.audio.AudioPlayer; import sun.audio.AudioStream;
- */
 public class ElevatorUI extends JFrame {
 
     private JButton upBtn, downBtn;
     private JPanel buttonPanel;
+    private Person p1;
+    private Building b1;
+       
 
     public ElevatorUI() {
         initCustomerComponents();
@@ -54,6 +47,7 @@ public class ElevatorUI extends JFrame {
         upBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 upButtonActionPerformed(evt);
+
             }
         });
         downBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -63,28 +57,27 @@ public class ElevatorUI extends JFrame {
         });
     }
 
-    /*   public void setMusic() {
-     InputStream in;
-     try {
-     in = new FileInputStream(new File("src/Soundeffect/Dragonball.wav"));
-     AudioStream audios = new AudioStream(in);
-     AudioPlayer.player.start(audios);
-     } catch (Exception e) {
-     JOptionPane.showMessageDialog(null, e);
-     }
-     }*/
     private void upButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        this.yourself; // the current player's Person object
-        Boolean canMove = elevator.moveUp(this.yourself);
-        if (canMove) {
-            // show the user that the up button is activated.
-        } else { // didn't move, probably on top floor
-            // do nothing
-            // maybe display an error
+        System.out.println("Your current floor is " + p1.getCurrentFloor());
+        if (b1.middle() == p1.getCurrentFloor()) {
+            System.out.println("You can move up to 3rd floor.");
+        } else if (b1.bottom() == p1.getCurrentFloor()) {
+            System.out.println("You can move up to 2nd floor or 3rd floor.");
+        } else if (b1.top() == p1.getCurrentFloor()) {
+            System.out.println("You cannot move up anymore.");
         }
+
     }
 
     private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("Your current floor is " + p1.getCurrentFloor());
+        if (b1.middle() == p1.getCurrentFloor()) {
+            System.out.println("You can move down to 1st floor.");
+        } else if (b1.bottom() == p1.getCurrentFloor()) {
+            System.out.println("You can move down to 2nd floor or 1st floor.");
+        } else if (b1.top() == p1.getCurrentFloor()) {
+            System.out.println("You cannot move down anymore.");
+        }
 
     }
 }
